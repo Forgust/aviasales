@@ -1,0 +1,56 @@
+$lightShadow: 0 0 15px -10px black;
+$priceColor: #2196f3;
+$columnHeadColor: #a0b0b9;
+$transfersColor: #30b0c7;
+
+.ticket {
+  display: flex;
+  font-family: sans-serif;
+  flex-direction: column;
+  background-color: white;
+  padding: 16px;
+  box-sizing: border-box;
+  gap: 16px;
+  max-width: 500px;
+  min-width: 400px;
+  height: 180px;
+  border-radius: 8px;
+  box-shadow: $lightShadow;
+}
+
+.ticket__price {
+  font-size: 1.6em;
+  color: $priceColor;
+}
+
+.ticket__header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ticket__body {
+  width: 100%;
+  letter-spacing: 0.05em;
+  font-size: 0.8em;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  justify-content: center;
+  gap: 6%;
+}
+
+.ticket-column {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.column--title {
+  color: $columnHeadColor;
+}
+
+.column--transfers {
+  color: $transfersColor;
+}

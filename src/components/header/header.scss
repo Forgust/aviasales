@@ -1,0 +1,27 @@
+.avia-header {
+  display: flex;
+  height: 20%;
+  width: 100%;
+  justify-content: center;
+}
+
+.avia-header__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  width: 100px;
+}
+
+.avia-header__icon::before {
+  content: url('./planet.svg');
+  position: absolute;
+  z-index: 0;
+}
+
+.avia-header__icon::after {
+  content: url('./plane.svg');
+  position: relative;
+  top: -5px;
+  z-index: 1;
+}

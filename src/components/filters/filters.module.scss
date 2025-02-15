@@ -1,0 +1,43 @@
+$activePriceColor: #2196f3;
+$lightShadow: 0 0 15px -10px black;
+
+.trans-filter {
+  display: flex;
+  max-height: 230px;
+  max-width: 200px;
+  min-width: 100px;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 20px;
+  padding: 14px;
+  box-sizing: border-box;
+  gap: 10px;
+  justify-self: end;
+  box-shadow: $lightShadow;
+  grid-area: trans-filter;
+  @media (max-width: 600px) {
+    justify-self: center;
+    max-width: 400px;
+  }
+}
+
+.trans-filter__list {
+  display: grid;
+  gap: 10px;
+  @media (max-width: 600px) {
+    grid-template-columns: repeat(3, auto);
+    grid-template-rows: 2;
+    align-items: center;
+  }
+}
+
+.price-filter {
+  width: auto;
+  height: fit-content;
+  box-shadow: $lightShadow;
+  grid-area: prices-filter;
+  justify-self: start;
+  @media (max-width: 600px) {
+    justify-self: center;
+  }
+}
