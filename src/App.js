@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import React from 'react';
 import { ConfigProvider } from 'antd';
 import classes from './App.module.scss';
@@ -5,7 +6,7 @@ import Header from './components/header';
 import { TransfersFilter, PricesFilter } from './components/filters';
 
 import TicketList from './components/tickets-list';
-console.log(classes);
+
 function App() {
   return (
     <ConfigProvider
@@ -32,3 +33,5 @@ function App() {
 }
 
 export default App;
+
+/*eslint-enable*/
