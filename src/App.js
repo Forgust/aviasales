@@ -1,13 +1,21 @@
 /*eslint-disable*/
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { ConfigProvider } from 'antd';
 import classes from './App.module.scss';
 import Header from './components/header';
 import { TransfersFilter, PricesFilter } from './components/filters';
+import { getSearchId, getTickets } from './components/store/actions';
 
 import TicketList from './components/tickets-list';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getTickets());
+  }, []);
+
   return (
     <ConfigProvider
       theme={{

@@ -36,8 +36,5 @@ $lightShadow: 0 0 15px -10px black;
   height: fit-content;
   box-shadow: $lightShadow;
   grid-area: prices-filter;
-  justify-self: start;
-  @media (max-width: 600px) {
-    justify-self: center;
-  }
+  justify-self: center;
 }
