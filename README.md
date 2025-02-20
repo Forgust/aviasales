@@ -1,1 +1,1 @@
-visit link --> https://aviasales-forgust-forgusts-projects.vercel.app
+visit link --> https://aviasales-git-main-forgusts-projects.vercel.app
