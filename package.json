@@ -26,15 +26,15 @@
     "lodash.debounce": "^4.0.8",
     "lodash.round": "^4.0.4",
     "nanoid": "^5.1.0",
-    "node-sass": "^9.0.0",
     "prop-types": "^15.8.1",
     "react": "^18.3.1",
     "react-detect-offline": "^2.4.5",
     "react-dom": "^18.3.1",
     "react-redux": "^9.2.0",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0",
+    "sass": "^1.85.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
