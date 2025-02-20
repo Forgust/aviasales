@@ -4,7 +4,5 @@
   flex-direction: column;
   gap: 24px;
   grid-area: tickets-list;
-  @media (max-width: 600px) {
-    align-items: center;
-  }
+  align-items: start;
 }

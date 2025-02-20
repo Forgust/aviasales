@@ -1,8 +1,13 @@
-import { Spin } from 'antd';
 import React from 'react';
-import classes from './loader.module.scss';
+import Box from '@mui/material/Box';
+import LinearProgress from '@mui/material/LinearProgress';
+
 const Loader = () => {
-  return <Spin type="Loading..." size="large" className={classes.loader} />;
+  return (
+    <Box sx={{ width: '100%', maxWidth: '500px', justifySelf: 'start' }}>
+      <LinearProgress />
+    </Box>
+  );
 };
 
 export default Loader;

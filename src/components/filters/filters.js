@@ -1,8 +1,7 @@
-/*eslint-disable*/
-import React from 'react';
-import { Checkbox, Segmented, Typography } from 'antd';
+import React, { useEffect } from 'react';
+import { Checkbox, Typography } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { toggleCheckbox } from '../store/actions';
+import { toggleCheckbox, togglePriceBtn } from '../store/actions';
 
 import classes from './filters.module.scss';
 
@@ -10,7 +9,7 @@ const { Title } = Typography;
 
 const TransfersFilter = () => {
   const dispatch = useDispatch();
-  const { all, noTransfers, oneTransfer, twoTransfers, threeTransfers } = useSelector((state) => state.checkboxReducer);
+  const { all, noTransfers, oneTransfer, twoTransfers, threeTransfers } = useSelector((state) => state.data);
 
   return (
     <div className={classes['trans-filter']}>
@@ -39,12 +38,30 @@ const TransfersFilter = () => {
 };
 
 const PricesFilter = () => {
+  const dispatch = useDispatch();
+  const { activePrice, resId } = useSelector((state) => state.data);
+  useEffect(() => {
+    if (!activePrice) {
+      return;
+    }
+    dispatch(togglePriceBtn(activePrice));
+  }, [resId]);
   return (
     <div className={classes['price-filter']}>
-      <Segmented options={['самый дешевый', 'самый быстрый', 'оптимальный']} size={'large'} />
+      <button
+        onClick={() => dispatch(togglePriceBtn('lowPrice'))}
+        className={`${classes['price-btn']} ${activePrice === 'lowPrice' ? classes.active : ''}`}
+      >
+        самый дешевый
+      </button>
+      <button
+        onClick={() => dispatch(togglePriceBtn('hightSpeed'))}
+        className={`${classes['price-btn']} ${activePrice === 'hightSpeed' ? classes.active : ''}`}
+      >
+        самый быстрый
+      </button>
     </div>
   );
 };
 
 export { TransfersFilter, PricesFilter };
-/*eslint-enable*/

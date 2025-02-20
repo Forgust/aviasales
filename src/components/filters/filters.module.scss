@@ -32,9 +32,33 @@ $lightShadow: 0 0 15px -10px black;
 }
 
 .price-filter {
-  width: auto;
+  width: 100%;
+  max-width: 500px;
   height: fit-content;
   box-shadow: $lightShadow;
   grid-area: prices-filter;
-  justify-self: center;
+  justify-self: start;
+}
+
+.price-btn {
+  font-family: sans-serif;
+  text-transform: uppercase;
+  background-color: white;
+  width: 50%;
+  height: 40px;
+  border: 1px solid rgb(209, 208, 208);
+  cursor: pointer;
+}
+
+.price-btn:hover:not(.active) {
+  transform: scale(1.02);
+  border-color: #2196f3;
+  color: #2196f3;
+  border-radius: inherit;
+}
+
+.price-btn.active {
+  background-color: #2196f3;
+  box-shadow: inset 0 0 10px -4px black;
+  color: white;
 }

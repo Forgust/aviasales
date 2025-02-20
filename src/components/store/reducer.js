@@ -1,36 +1,106 @@
-/*eslint-disable*/
+import { nanoid } from 'nanoid';
 import { actionTypes } from './actions';
+
 const [
   TOGGLE_CHECKBOX,
+  TOGGLE_PRICE_BTN,
+  FETCH_SEARCH_ID_SUCCESS,
+  FETCH_SEARCH_ID_ERROR,
   FETCH_SEARCH_DATA_REQUEST,
   FETCH_SEARCH_DATA_SUCCESS,
   FETCH_SEARCH_DATA_ERROR,
   GET_NEXT_FIVE_TICKETS,
 ] = actionTypes;
 
-const initialStateCheckbox = {
-  all: false,
-  noTransfers: false,
-  oneTransfer: false,
-  twoTransfers: false,
-  threeTransfers: false,
-};
-
 const initialStateData = {
+  all: true,
+  noTransfers: true,
+  oneTransfer: true,
+  twoTransfers: true,
+  threeTransfers: true,
   data: [],
   error: false,
-  loading: false,
+  stop: false,
   hasData: false,
-  currentTickets: [],
-  counter: 0,
+  tickets: [],
+  ticketsInPage: 5,
+  filteredTickets: [],
+  activePrice: null,
+  requestId: null,
+  searchId: null,
+  resId: null,
 };
 
-const checkboxReducer = (state = initialStateCheckbox, action) => {
+const aviaApiReducer = (state = initialStateData, action) => {
   switch (action.type) {
-    case TOGGLE_CHECKBOX:
-      const { payload } = action; // Получаем название чекбокса и меняем его состояние
-      const newState = { ...state, [payload]: !state[payload] };
+    case FETCH_SEARCH_ID_SUCCESS:
+      return { ...state, searchId: action.payload };
+    case FETCH_SEARCH_ID_ERROR:
+      return { ...state, error: true };
+    case FETCH_SEARCH_DATA_REQUEST:
+      return { ...state, stop: false, error: false };
+    case FETCH_SEARCH_DATA_SUCCESS: {
+      const resId = nanoid();
+      const { tickets: oldTickets } = state;
+      const data = action.payload;
+      const newTickets = oldTickets.concat(data.tickets);
+      const stop = data.stop;
+
+      const newFilteredTickets = newTickets.filter((ticket) => {
+        const stopsLengthThere = ticket.segments[0].stops.length;
+        const stopsLengthBack = ticket.segments[1].stops.length;
+        if (state.noTransfers && stopsLengthThere === 0 && stopsLengthBack === 0) return true;
+        if (state.oneTransfer && stopsLengthThere === 1 && stopsLengthBack === 1) return true;
+        if (state.twoTransfers && stopsLengthThere === 2 && stopsLengthBack === 2) return true;
+        if (state.threeTransfers && stopsLengthThere === 3 && stopsLengthBack == 3) return true;
+        return false;
+      });
+      return {
+        ...state,
+        hasData: true,
+        error: false,
+        data: data,
+        tickets: newTickets,
+        stop: stop,
+        resId: resId,
+        filteredTickets: newFilteredTickets,
+      };
+    }
+
+    case FETCH_SEARCH_DATA_ERROR: {
+      const errorResId = nanoid();
+      return { ...state, stop: false, error: true, resId: errorResId };
+    }
+
+    case GET_NEXT_FIVE_TICKETS:
+      if (!state.hasData) {
+        return state;
+      } else {
+        const { ticketsInPage } = state;
+        const newTicketsInPage = ticketsInPage + 5;
+        return { ...state, ticketsInPage: newTicketsInPage };
+      }
+    case TOGGLE_PRICE_BTN: {
+      let sortPriceTickets = [];
+      const { tickets } = state;
+      if (action.payload === 'lowPrice') {
+        sortPriceTickets = tickets.sort((a, b) => a.price - b.price);
+      } else if (action.payload === 'hightSpeed') {
+        sortPriceTickets = tickets.sort((a, b) => {
+          const totalDurationA = a.segments[0].duration + a.segments[1].duration;
+          const totalDurationB = b.segments[0].duration + b.segments[1].duration;
+          return totalDurationA - totalDurationB;
+        });
+      }
+      return { ...state, activePrice: action.payload, tickets: sortPriceTickets, filteredTickets: sortPriceTickets };
+    }
+
+    case TOGGLE_CHECKBOX: {
+      const { payload } = action; //текущий чекбокс
+      let resState = {};
+      const newState = { ...state, [payload]: !state[payload] }; //сменяем состояние чекбокса
       const isAllChecked = () => {
+        //проверяем все ли активны
         if (!newState.all) {
           const { noTransfers, oneTransfer, twoTransfers, threeTransfers } = newState;
           if (noTransfers && oneTransfer && twoTransfers && threeTransfers) {
@@ -42,13 +112,12 @@ const checkboxReducer = (state = initialStateCheckbox, action) => {
           return true;
         }
       };
-
-      // Логика для управления состоянием чекбоксов
       if (payload === 'all') {
-        // Если включаем "Все"
-
+        //проверяем если нажали на 'все'
         if (newState.all) {
-          return {
+          //если новое состояние активное то все галочки делаем активными
+          resState = {
+            ...state,
             all: true,
             noTransfers: true,
             oneTransfer: true,
@@ -56,60 +125,43 @@ const checkboxReducer = (state = initialStateCheckbox, action) => {
             threeTransfers: true,
           };
         } else {
-          // Если снимаем "Все"
-          return { ...newState, noTransfers: false, oneTransfer: false, twoTransfers: false, threeTransfers: false };
+          //иначе все галочки деактивируем
+          resState = {
+            ...newState,
+            noTransfers: false,
+            oneTransfer: false,
+            twoTransfers: false,
+            threeTransfers: false,
+          };
         }
       } else {
+        //если нажали чтото кроме 'все'
         if (state.all) {
-          // Если снимаем любую галочку при включенной "Все"
-          return { ...newState, all: false };
+          //если активна 'все' то ее деактивируем
+          resState = { ...newState, all: false };
         } else if (isAllChecked()) {
-          //если ставим все галочки при выключеной "все"
-          return { ...newState, all: true };
+          resState = { ...newState, all: true };
+        } else {
+          resState = newState;
         }
-        return newState;
       }
+      //белое фильтрованное
+
+      const filteredTickets = state.tickets.filter((ticket) => {
+        const stopsLengthThere = ticket.segments[0].stops.length;
+        const stopsLengthBack = ticket.segments[1].stops.length;
+        if (resState.noTransfers && stopsLengthThere === 0 && stopsLengthBack === 0) return true;
+        if (resState.oneTransfer && stopsLengthThere === 1 && stopsLengthBack === 1) return true;
+        if (resState.twoTransfers && stopsLengthThere === 2 && stopsLengthBack === 2) return true;
+        if (resState.threeTransfers && stopsLengthThere === 3 && stopsLengthBack == 3) return true;
+        return false;
+      });
+      return { ...resState, filteredTickets: filteredTickets };
+    }
 
     default:
       return state;
   }
 };
 
-const aviaApiReducer = (state = initialStateData, action) => {
-  switch (action.type) {
-    case FETCH_SEARCH_DATA_REQUEST:
-      return { ...state, loading: true, error: false };
-    case FETCH_SEARCH_DATA_SUCCESS:
-      const newData = action.payload;
-      const tickets = newData.tickets;
-      let counter = state.counter;
-      let newCounter = (counter += 5);
-      const currentTickets = tickets.slice(0, 5);
-      return {
-        ...state,
-        hasData: true,
-        loading: false,
-        error: false,
-        data: newData,
-        tickets: tickets,
-        currentTickets: currentTickets,
-        counter: newCounter,
-      };
-    case FETCH_SEARCH_DATA_ERROR:
-      return { ...state, loading: false, error: true };
-    case GET_NEXT_FIVE_TICKETS:
-      if (!state.hasData) {
-        return state;
-      } else {
-        let counter = state.counter;
-        let newCounter = (counter += 5);
-        const currentTickets = tickets.slice(counter, newCounter);
-        return { ...state, counter: newCounter, currentTickets: currentTickets };
-      }
-    default:
-      return state;
-  }
-};
-
-export { checkboxReducer, aviaApiReducer };
-/*eslint-enable*/
+export { aviaApiReducer };

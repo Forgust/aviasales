@@ -3,13 +3,14 @@
   grid-template-columns: 1fr 70%;
   grid-template-areas:
     'trans-filter prices-filter'
+    'trans-filter loader'
     'trans-filter tickets-list';
   justify-items: center;
   padding: 10%;
   padding-top: 0;
   padding-bottom: 24px;
   column-gap: 24px;
-  row-gap: 24px;
+  row-gap: 18px;
   @media (max-width: 1030px) {
     padding: 6%;
     padding-top: 0;
@@ -23,6 +24,7 @@
     grid-template-areas:
       'prices-filter'
       'trans-filter'
+      'loader'
       'tickets-list';
   }
 }

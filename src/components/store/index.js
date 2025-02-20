@@ -1,11 +1,10 @@
 import { composeWithDevTools } from '@redux-devtools/extension';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { thunk } from 'redux-thunk';
-import { checkboxReducer, aviaApiReducer } from './reducer';
+import { aviaApiReducer } from './reducer';
 
 const rootReducer = combineReducers({
-  checkboxReducer,
-  aviaApiReducer,
+  data: aviaApiReducer,
 });
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
