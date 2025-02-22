@@ -3,9 +3,9 @@ import './header.scss';
 
 const Header = () => {
   return (
-    <div className="avia-header">
+    <header className="avia-header">
       <span className="avia-header__icon"></span>
-    </div>
+    </header>
   );
 };
 

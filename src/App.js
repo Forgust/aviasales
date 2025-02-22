@@ -4,7 +4,7 @@ import { ConfigProvider } from 'antd';
 import classes from './App.module.scss';
 import Header from './components/header';
 import { TransfersFilter, PricesFilter } from './components/filters';
-import { getSearchId, debouncedGetTickets } from './components/store/actions';
+import { getSearchId, debouncedGetTickets } from './store/actions';
 import Loader from './components/loader';
 
 import TicketList from './components/tickets-list';
@@ -39,7 +39,7 @@ function App() {
         },
       }}
     >
-      <div className={classes.App}>
+      <main className={classes.App}>
         <Header />
         <div className={classes['app_main']}>
           <TransfersFilter />
@@ -48,7 +48,7 @@ function App() {
           {stop && filteredTickets.length === 0 ? <EmptyError /> : null}
           <TicketList />
         </div>
-      </div>
+      </main>
     </ConfigProvider>
   );
 }

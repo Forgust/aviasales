@@ -49,10 +49,10 @@ const aviaApiReducer = (state = initialStateData, action) => {
       const newFilteredTickets = newTickets.filter((ticket) => {
         const stopsLengthThere = ticket.segments[0].stops.length;
         const stopsLengthBack = ticket.segments[1].stops.length;
-        if (state.noTransfers && stopsLengthThere === 0 && stopsLengthBack === 0) return true;
-        if (state.oneTransfer && stopsLengthThere === 1 && stopsLengthBack === 1) return true;
-        if (state.twoTransfers && stopsLengthThere === 2 && stopsLengthBack === 2) return true;
-        if (state.threeTransfers && stopsLengthThere === 3 && stopsLengthBack == 3) return true;
+        if (state.noTransfers && (stopsLengthThere === 0 || stopsLengthBack === 0)) return true;
+        if (state.oneTransfer && (stopsLengthThere === 1 || stopsLengthBack === 1)) return true;
+        if (state.twoTransfers && (stopsLengthThere === 2 || stopsLengthBack === 2)) return true;
+        if (state.threeTransfers && (stopsLengthThere === 3 || stopsLengthBack == 3)) return true;
         return false;
       });
       return {
@@ -150,10 +150,10 @@ const aviaApiReducer = (state = initialStateData, action) => {
       const filteredTickets = state.tickets.filter((ticket) => {
         const stopsLengthThere = ticket.segments[0].stops.length;
         const stopsLengthBack = ticket.segments[1].stops.length;
-        if (resState.noTransfers && stopsLengthThere === 0 && stopsLengthBack === 0) return true;
-        if (resState.oneTransfer && stopsLengthThere === 1 && stopsLengthBack === 1) return true;
-        if (resState.twoTransfers && stopsLengthThere === 2 && stopsLengthBack === 2) return true;
-        if (resState.threeTransfers && stopsLengthThere === 3 && stopsLengthBack == 3) return true;
+        if (resState.noTransfers && (stopsLengthThere === 0 || stopsLengthBack === 0)) return true;
+        if (resState.oneTransfer && (stopsLengthThere === 1 || stopsLengthBack === 1)) return true;
+        if (resState.twoTransfers && (stopsLengthThere === 2 || stopsLengthBack === 2)) return true;
+        if (resState.threeTransfers && (stopsLengthThere === 3 || stopsLengthBack == 3)) return true;
         return false;
       });
       return { ...resState, filteredTickets: filteredTickets };

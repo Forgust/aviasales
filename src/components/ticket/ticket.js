@@ -17,7 +17,7 @@ const Ticket = ({
   stopsCountBack,
 }) => {
   return (
-    <div className={classes.ticket}>
+    <article className={classes.ticket}>
       <div className={classes['ticket__header']}>
         <span className={classes['ticket__price']}>{price}</span>
         <img src={logo} alt="ticket logo"></img>
@@ -50,7 +50,7 @@ const Ticket = ({
           <span>{stopsNamesBack}</span>
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 

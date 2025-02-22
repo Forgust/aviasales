@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { Checkbox, Typography } from 'antd';
+import { Typography } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { toggleCheckbox, togglePriceBtn } from '../store/actions';
+import { toggleCheckbox, togglePriceBtn } from '../../store/actions';
 
 import classes from './filters.module.scss';
 
@@ -13,25 +13,32 @@ const TransfersFilter = () => {
 
   return (
     <div className={classes['trans-filter']}>
-      <Title level={5} style={{ margin: 0 }}>
+      <Title level={5} style={{ margin: 0, fontSize: '13px', fontWeight: '500', padding: '0  16px' }}>
         Количество пересадок
       </Title>
       <div className={classes['trans-filter__list']}>
-        <Checkbox checked={all} onChange={() => dispatch(toggleCheckbox('all'))}>
+        <input type="checkbox" id="item" className={classes.checkbox} checked={all} />
+        <label onClick={() => dispatch(toggleCheckbox('all'))} htmlFor="item">
           Все
-        </Checkbox>
-        <Checkbox checked={noTransfers} onChange={() => dispatch(toggleCheckbox('noTransfers'))}>
+        </label>
+        <input type="checkbox" id="item" className={classes.checkbox} checked={noTransfers} />
+        <label onClick={() => dispatch(toggleCheckbox('noTransfers'))} htmlFor="item">
           Без пересадок
-        </Checkbox>
-        <Checkbox checked={oneTransfer} onChange={() => dispatch(toggleCheckbox('oneTransfer'))}>
+        </label>
+        <input type="checkbox" id="item" className={classes.checkbox} checked={oneTransfer} />
+        <label onClick={() => dispatch(toggleCheckbox('oneTransfer'))} htmlFor="item">
           1 пересадка
-        </Checkbox>
-        <Checkbox checked={twoTransfers} onChange={() => dispatch(toggleCheckbox('twoTransfers'))}>
+        </label>
+        <input type="checkbox" id="item" className={classes.checkbox} checked={twoTransfers} />
+
+        <label onClick={() => dispatch(toggleCheckbox('twoTransfers'))} htmlFor="item">
           2 пересадки
-        </Checkbox>
-        <Checkbox checked={threeTransfers} onChange={() => dispatch(toggleCheckbox('threeTransfers'))}>
+        </label>
+        <input type="checkbox" id="item" className={classes.checkbox} checked={threeTransfers} />
+
+        <label onClick={() => dispatch(toggleCheckbox('threeTransfers'))} htmlFor="item">
           3 пересадки
-        </Checkbox>
+        </label>
       </div>
     </div>
   );
